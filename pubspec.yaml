@@ -1,0 +1,37 @@
+name: test_app
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.3.4 <4.0.0'
+
+dependencies:
+  animated_icon: ^0.0.9
+  animated_text_kit: ^4.2.2
+  dio: ^5.5.0+1
+  flutter:
+    sdk: flutter
+  flutter_animated_button: ^2.0.3
+  flutter_ipfs: ^0.0.2
+  get: ^4.6.6
+  google_fonts: ^6.2.1
+  image_picker: ^0.8.9
+  slider_button: ^2.1.0
+  web3modal_flutter: ^3.1.2
+  
+dependency_overrides:
+  http: 
+  
+  file_picker:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+   - assets/
+   - assets/abi.json
