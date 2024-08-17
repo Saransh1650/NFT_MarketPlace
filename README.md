@@ -1,7 +1,11 @@
 
 # 🎨 NFT Marketplace App
 <img src="https://github.com/user-attachments/assets/10dc1666-1b87-4fad-8cf3-5285deffb60a" width="100"/>
-<img src="https://github.com/user-attachments/assets/d2408a8e-e659-47d3-9ac7-84b66164b9fa" width="90"/>
+<img src="https://github.com/user-attachments/assets/d2408a8e-e659-47d3-9ac7-84b66164b9fa" width="80" style="padding-right: 200px"/>
+<img src="https://github.com/user-attachments/assets/60d1b952-0181-48be-9422-962c2476d8d1" width="80"/>
+<img src="https://github.com/user-attachments/assets/14beba82-b8ea-434b-89ed-f522f1a5a25c" width="80"/>
+
+
 
 
 
