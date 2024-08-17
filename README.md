@@ -70,8 +70,7 @@ Get started with the NFT Marketplace App by following these steps:
 - **Frontend**: Flutter, Dart
 - **Blockchain**: Ethereum, Solidity
 - **Wallet Integration**: WalletConnect
-![RPReplay_Final1723838866-ezgif com-optimize](https://github.com/user-attachments/assets/0f226afb-8a67-4454-a2c4-fd0cb52b969e)
-
+- **IPFS Storage**: Pinata API
 
 
 ## 🧑‍💻 Contributing
