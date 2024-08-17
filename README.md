@@ -1,5 +1,9 @@
 
 # 🎨 NFT Marketplace App
+<img src="https://github.com/user-attachments/assets/10dc1666-1b87-4fad-8cf3-5285deffb60a" width="100"/>
+<img src="https://github.com/user-attachments/assets/d2408a8e-e659-47d3-9ac7-84b66164b9fa" width="90"/>
+
+
 
 Welcome to the **NFT Marketplace App**—your all-in-one platform for creating, buying, and exploring the world of Non-Fungible Tokens (NFTs). Built with Flutter and integrated with WalletConnect, our app provides a seamless and secure experience for both artists and collectors in the digital art space.
 
