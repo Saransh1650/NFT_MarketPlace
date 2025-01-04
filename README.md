@@ -48,7 +48,7 @@ Get started with the NFT Marketplace App by following these steps:
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/your-username/nft-marketplace-app.git
+    git clone https://github.com/Saransh1650/NFT_MarketPlace.git
     cd nft-marketplace-app
     ```
 
