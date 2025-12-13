@@ -3,8 +3,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart' as prefix;
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/multipart/form_data.dart';
-import 'package:test_app/GetX/uploading_file.dart';
 
 import '../Utils/utils.dart';
 import 'http_service.dart';

@@ -21,8 +21,7 @@ dependencies:
   web3modal_flutter: ^3.1.2
   
 dependency_overrides:
-  http: 
-  
+  http:
   file_picker:
 
 dev_dependencies:

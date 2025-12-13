@@ -1,15 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:dio/dio.dart' as prefix;
-import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
+
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:test_app/GetX/loading.dart';
-import 'package:test_app/Utils/utils.dart';
 import 'package:web3modal_flutter/web3modal_flutter.dart';
 
-import 'http_service.dart';
+import 'package:test_app/GetX/loading.dart';
 
 class WalletConnectConfig extends GetxController {
   late final deployedContract;
@@ -22,10 +17,12 @@ class WalletConnectConfig extends GetxController {
     super.onInit();
     await w3mService.init();
     await deployContract();
+     await getIndividualNftData(BigInt.one);
     mainFeed.value = await getNft();
-    address.value =  w3mService.session!.address!;
+    address.value = w3mService.session!.address!;
     print('mainFeed :: $mainFeed');
     print(address.value);
+   
   }
 
   final w3mService = W3MService(
@@ -51,7 +48,7 @@ class WalletConnectConfig extends GetxController {
         jsonEncode(abiJson), // ABI object
         'NFTContract',
       ),
-      EthereumAddress.fromHex('0x28c34df7534345D36b646eDA0c89e5b849b887C3'),
+      EthereumAddress.fromHex('0x3a190E2ba363cE63046Dc79E03E41BcFadA84117'),
     );
   }
 
@@ -73,8 +70,10 @@ class WalletConnectConfig extends GetxController {
     //   print("asd");
 
     result = await w3mService.requestReadContract(
+        topic: w3mService.session!.topic.toString(),
+        chainId: "eip155:11155111",
         parameters: [BigInt.from(1)],
-        rpcUrl: "https://rpc.sepolia.org",
+        rpcUrl: "https://1rpc.io/sepolia",
         deployedContract: deployedContract,
         functionName: "getIndividualNftData");
 
@@ -93,15 +92,13 @@ class WalletConnectConfig extends GetxController {
           chainId: 'eip155:11155111',
           deployedContract: deployedContract,
           functionName: 'createNft',
-          parameters: [tokenUri,title,decs, price, mints],
+          parameters: [tokenUri, title, decs, price, mints],
           transaction: Transaction(
             from: EthereumAddress.fromHex('${w3mService.session!.address}'),
           ));
-     
     } catch (e) {
       print("error $e");
     }
-     
   }
 
   updateNft(BigInt tokenId, String title, String description, BigInt price,
@@ -139,7 +136,6 @@ class WalletConnectConfig extends GetxController {
   }
 
   sellNft(BigInt tokenId, BigInt price, EthereumAddress address) async {
-
     try {
       await w3mService.requestWriteContract(
           topic: w3mService.session!.topic.toString(),
@@ -176,18 +172,35 @@ class WalletConnectConfig extends GetxController {
   }
 
   getNft() async {
-    List result = [];
-    try {
-      result = await w3mService.requestReadContract(
-          parameters: [],
-          rpcUrl: "https://rpc.sepolia.org",
-          deployedContract: deployedContract,
-          functionName: "getNft");
+    print("🔹 Calling getNft()...");
 
-      print(result[0]);
+    // Check if session exists
+    if (w3mService.session == null || w3mService.session!.topic == null) {
+      print("❌ Error: w3mService.session is NULL or topic is missing!");
+      return;
+    }
+
+    // Check if contract is deployed
+    if (deployedContract == null) {
+      print("❌ Error: deployedContract is NULL!");
+      return;
+    }
+
+    try {
+      print("✅ Attempting to call getNft...");
+      final result = await w3mService.requestReadContract(
+        topic: w3mService.session!.topic.toString(),
+        chainId: "eip155:11155111", // Try without "eip155:"
+        rpcUrl: "https://1rpc.io/sepolia",
+        deployedContract: deployedContract,
+        functionName: "getNft",
+      );
+
+      print("✅ getNft() result: $result");
       return result[0];
-    } catch (e) {
-      print(e);
+    } catch (e, s) {
+      print("❌ W3MServiceException in getNft(): ${e.toString()}");
+      print("StackTrace: $s");
     }
   }
 
@@ -195,10 +208,13 @@ class WalletConnectConfig extends GetxController {
     List result = [];
     try {
       result = await w3mService.requestReadContract(
-          parameters: [tokenId],
-          rpcUrl: "https://rpc.sepolia.org",
-          deployedContract: deployedContract,
-          functionName: "tokenURI");
+        topic: w3mService.session!.topic.toString(),
+        chainId: "eip155:11155111",
+        parameters: [tokenId],
+        rpcUrl: "https://1rpc.io/sepolia",
+        deployedContract: deployedContract,
+        functionName: "tokenURI",
+      );
 
       print(result);
       return result;
@@ -207,16 +223,14 @@ class WalletConnectConfig extends GetxController {
     }
   }
 
-
- 
-
   displayOwnedNfts() async {
-   List result = [];
+    List result = [];
     try {
       result = await w3mService.requestReadContract(
-          parameters: [EthereumAddress.fromHex(address.value)
-                ],
-          rpcUrl: "https://rpc.sepolia.org",
+          topic: w3mService.session!.topic.toString(),
+          chainId: "eip155:11155111",
+          parameters: [EthereumAddress.fromHex(address.value)],
+          rpcUrl: "https://1rpc.io/sepolia",
           deployedContract: deployedContract,
           functionName: "displayOwnedNfts");
 
@@ -228,16 +242,21 @@ class WalletConnectConfig extends GetxController {
   }
 
   getIndividualNftData(BigInt tokenId) async {
+    print("sdf");
     try {
-      await w3mService.requestWriteContract(
+
+      print(w3mService.session!.topic.toString(),);
+      print(w3mService.selectedChain);
+     var result=  await w3mService.requestReadContract(
           topic: w3mService.session!.topic.toString(),
           chainId: 'eip155:11155111',
           deployedContract: deployedContract,
           functionName: 'getIndividualNftData',
           parameters: [tokenId],
-          transaction: Transaction(
-            from: EthereumAddress.fromHex("${w3mService.session!.address}"),
-          ));
+          rpcUrl: "https://1rpc.io/sepolia",
+          
+          );
+          print(result);
     } catch (e) {
       print(e);
     }

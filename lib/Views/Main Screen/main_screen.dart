@@ -8,6 +8,7 @@ import 'package:test_app/Views/Main%20Screen/nft_containers_list.dart';
 import 'package:test_app/Views/Main%20Screen/scrolling_list_widget.dart';
 import 'package:test_app/Views/Main%20Screen/search_bar_widget.dart';
 import 'package:test_app/Views/Profile/profile.dart';
+import 'package:web3modal_flutter/web3modal_flutter.dart';
 
 import '../../GetX/wallet_connect_config.dart';
 
@@ -16,15 +17,15 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        WalletConnectConfig controller = Get.put(WalletConnectConfig());
-       
+    WalletConnectConfig controller = Get.put(WalletConnectConfig());
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
+          onPressed: () async {
             Get.defaultDialog(
-                onCancel: () {
-                  controller.getNft();
+                onCancel: () async {
+                  await controller.getIndividualNftData(BigInt.one);
                 },
                 content: DialogBox(),
                 title: "Create Nft",
@@ -46,7 +47,11 @@ class MainScreen extends StatelessWidget {
             },
             icon: const Icon(Icons.person),
             color: Colors.white,
-          )
+          ),
+          W3MAccountButton(
+            service: controller.w3mService,
+          ),
+          W3MNetworkSelectButton(service: controller.w3mService)
         ],
         backgroundColor: const Color.fromARGB(255, 29, 30, 36),
         title: Text(
